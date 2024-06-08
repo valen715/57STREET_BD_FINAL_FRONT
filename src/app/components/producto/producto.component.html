@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="product-list">
+    <h1>Lista de Productos</h1>
+    <table *ngIf="productos.length > 0" class="product-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Activo</th>
+          <th>Genero</th>
+          <th>Color</th>
+          <th>Categoría</th>
+          <th>Talla</th>
+          <th>Eliminar</th>
+          <!-- Agrega más columnas según los campos de tu producto -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos" class="product-row">
+          <td>{{ producto[0] }}</td> <!-- ID -->
+          <td>{{ producto[1] }}</td> <!-- Nombre -->
+          <td>{{ producto[2] }}</td> <!-- Descripción -->
+          <td>{{ producto[3] }}</td> <!-- Precio -->
+          <td>{{ producto[4] }}</td> <!-- Cantidad -->
+          <td>{{ producto[5] }}</td> <!-- Categoría -->
+          <td>{{ producto[6] }}</td> <!-- Talla -->
+          <td>{{ producto[7] }}</td> <!-- Talla -->
+          <td>{{ producto[8] }}</td> <!-- Talla -->
+          <td>{{ producto[9] }}</td> <!-- Talla -->
+          <td>
+            <button type="submit" (click)="eliminarProducto(producto.id, producto.nombre, producto.descripcion)">Eliminar</button>
+          </td>
+          <!-- Agrega más columnas según los campos de tu producto -->
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="productos.length === 0" class="no-products">No hay productos en la base de datos.</p>
+  </div>
+
+  <div class="form-container">
+    <div class="create-product">
+      <h2>Crear Producto o Actualizar</h2>
+      <form>
+        <label for="id">ID:</label>
+        <input type="text" id="id" required [(ngModel)]="nuevoProducto.id">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required [(ngModel)]="nuevoProducto.nombre">
+
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" required [(ngModel)]="nuevoProducto.descripcion">
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" required [(ngModel)]="nuevoProducto.cantidad">
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" required [(ngModel)]="nuevoProducto.precio">
+
+        <label for="activo">Activo:</label>
+        <input type="text" id="activo" required [(ngModel)]="nuevoProducto.activo">
+
+        <label for="genero">Género:</label>
+        <input type="text" id="genero" required [(ngModel)]="nuevoProducto.genero">
+
+        <label for="color">Color:</label>
+        <input type="text" id="color" required [(ngModel)]="nuevoProducto.color">
+
+        <label for="categoria">Categoría:</label>
+        <input type="text" id="categoria" required [(ngModel)]="nuevoProducto.categoria">
+
+        <label for="talla">Talla:</label>
+        <input type="text" id="talla" required [(ngModel)]="nuevoProducto.talla">
+
+        <button type="submit" (click)="crearProducto()">Crear Producto</button>
+        <button type="submit" (click)="actualizarProducto(nuevoProducto)">Actualizar Producto</button>
+      </form>
+    </div>
+</div>

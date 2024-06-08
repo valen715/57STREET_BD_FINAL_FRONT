@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-list {
+  margin-bottom: 20px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th, .product-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.product-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.product-row:hover {
+  background-color: #f2f2f2;
+}
+
+.no-products {
+  font-style: italic;
+}
+
+.create-product {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.create-product h2 {
+  margin-bottom: 10px;
+}
+
+.create-product label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.create-product input {
+  width: calc(100% - 12px);
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+.create-product button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-product button:hover {
+  background-color: #45a049;
+}
+
+.product-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.create-product,
+.update-product {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.create-product {
+  margin-right: 10px;
+}
+
+
+.create-product button,
+.update-product button {
+  margin-right: 50px; /* Ajusta el espacio entre los botones */
+}

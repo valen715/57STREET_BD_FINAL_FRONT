@@ -31,16 +31,28 @@ export class ProductoComponent implements OnInit {
   }
 
   listarProductos() {
-    this.http.get<any[]>('http://localhost:3000/api/listarProductos')
-      .subscribe(
-        (response) => {
-          this.productos = response;
-        },
-        (error) => {
-          this.error = 'Error al obtener productos';
-        }
-      );
-  }
+  this.http.get<any[]>('http://localhost:3000/api/listarProductos')
+    .subscribe(
+      (response) => {
+        this.productos = response.map(item => ({
+          id: item[0].ID,
+          nombre: item[0].NOMBRE,
+          descripcion: item[0].DESCRIPCION,
+          cantidad: item[1].CANTIDAD,
+          precio: item[1].PRECIO,
+          activo: item[2],
+          genero: item[3],
+          color: item[4],
+          categoria: item[5],
+          talla: item[6]
+        }));
+        console.log(this.productos); // Verifica la nueva estructura aquí
+      },
+      (error) => {
+        this.error = 'Error al obtener productos';
+      }
+    );
+}
 
   actualizarProducto(producto: any) {
     this.http.put(`http://localhost:3000/api/actualizarProducto/${producto.id}`, producto)

@@ -38,6 +38,7 @@
       </tbody>
     </table>
     <p *ngIf="productos.length === 0" class="no-products">No hay productos en la base de datos.</p>
+    <h3 *ngIf="error != null">{{error}}</h3>
   </div>
 
   <div class="form-container">
@@ -60,22 +61,21 @@
         <input type="number" id="precio" required [(ngModel)]="nuevoProducto.precio" name="precio">
 
         <label for="activo">Activo:</label>
-        <input type="text" id="activo" required [(ngModel)]="nuevoProducto.activo" name="activo">
+        <input type="number" id="activo" required [(ngModel)]="nuevoProducto.activo" name="activo">
 
         <label for="genero">Género:</label>
-        <input type="text" id="genero" required [(ngModel)]="nuevoProducto.genero" name="genero">
+        <input type="number" id="genero" required [(ngModel)]="nuevoProducto.genero" name="genero">
 
         <label for="color">Color:</label>
-        <input type="text" id="color" required [(ngModel)]="nuevoProducto.color" name="color">
+        <input type="number" id="color" required [(ngModel)]="nuevoProducto.color" name="color">
 
         <label for="categoria">Categoría:</label>
-        <input type="text" id="categoria" required [(ngModel)]="nuevoProducto.categoria" name="categoria">
+        <input type="number" id="categoria" required [(ngModel)]="nuevoProducto.categoria" name="categoria">
 
         <label for="talla">Talla:</label>
-        <input type="text" id="talla" required [(ngModel)]="nuevoProducto.talla" name="talla">
-
+        <input type="number" id="talla" required [(ngModel)]="nuevoProducto.talla" name="talla">
         <button type="button" (click)="crearProducto()">Crear Producto</button>
-        <button type="button" (click)="actualizarProducto(nuevoProducto)">Actualizar Producto</button>
+        <button type="button" (click)="actualizarProducto()">Actualizar Producto</button>
       </form>
     </div>
   </div>

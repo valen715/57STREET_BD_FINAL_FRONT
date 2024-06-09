@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-producto',
@@ -15,13 +16,12 @@ export class ProductoComponent implements OnInit {
     descripcion: '',
     cantidad: 0,
     precio: 0,
-    activo: false,
-    idTipoGenero: '',
-    idTipoColor: '',
-    idTipoCategoriaProducto: '',
-    idTipoTalla: ''
+    activo: 0,
+    genero: 0,
+    color: 0,
+    categoria: 0,
+    talla: 0
   };
-  productoActualizado: any = {};
   error: string | null = null;
 
   constructor(private http: HttpClient) { }
@@ -46,7 +46,6 @@ export class ProductoComponent implements OnInit {
           categoria: item[5],
           talla: item[6]
         }));
-        console.log(this.productos); // Verifica la nueva estructura aquí
       },
       (error) => {
         this.error = 'Error al obtener productos';
@@ -54,42 +53,75 @@ export class ProductoComponent implements OnInit {
     );
 }
 
-  actualizarProducto(producto: any) {
-    this.http.put(`http://localhost:3000/api/actualizarProducto/${producto.id}`, producto)
-      .subscribe(
-        () => {
-          this.listarProductos();
-        },
-        () => {
-          this.error = 'Error al actualizar producto';
-        }
-      );
+  actualizarProducto() {
+    if(!this.productos.some(item => item.id == this.nuevoProducto.id)){
+        console.log("El producto para actualizar no existe")
+        this.error = "El producto para actualizar no existe";
+        return
+    }
+    this.http.put<{message: string}>(`http://localhost:3000/api/actualizarProducto`, this.nuevoProducto)
+    .pipe(
+      tap(() => {
+        console.log('Producto actualizado correctamente');
+      }),
+      finalize(() => {
+        window.location.reload();
+      })
+    )
+    .subscribe({
+      next: (response) => {
+        console.log(response.message);
+      },
+      error: (error) => {
+        console.error('Error al actualizar producto:', error);
+      }
+    });
   }
 
   eliminarProducto(id: number, nombre: any, descripcion: any) {
-    this.http.delete(`http://localhost:3000/api/eliminarProducto/${id}/${nombre}/${descripcion}`)
-      .subscribe(
-        () => {
-          this.listarProductos();
+    this.http.delete<{message: string}>(`http://localhost:3000/api/eliminarProducto/${id}/${nombre}/${descripcion}`)
+      .pipe(
+        tap(() => {
+          console.log('Producto eliminado correctamente');
+        }),
+        finalize(() => {
+          window.location.reload();
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response.message);
         },
-        () => {
-          this.error = 'Error al eliminar producto';
+        error: (error) => {
+          console.error('Error al eliminar producto:', error);
         }
-      );
+      });
   }
 
   crearProducto(): void {
-    this.http.post('http://localhost:3000/api/crearProducto', this.nuevoProducto)
-      .subscribe(
-      () => {
-        console.log('Producto creado correctamente');
-        this.listarProductos();
-        this.resetFormulario();
-      },
-      (error) => {
-        console.error('Error al crear producto:', error);
-      }
-    );
+    if(this.productos.some(item => item.id == this.nuevoProducto.id)){
+      console.log("El producto con el ID seleccionado ya existe, actualiza en este caso")
+      this.error = "El producto con el ID seleccionado ya existe, actualiza en este caso";
+      return
+    }
+
+    this.http.post<{ message: string }>('http://localhost:3000/api/crearProducto', this.nuevoProducto)
+      .pipe(
+        tap(() => {
+          console.log('Producto creado correctamente');
+        }),
+        finalize(() => {
+          window.location.reload();
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response.message);
+        },
+        error: (error) => {
+          console.error('Error al crear producto:', error);
+        }
+      });
   }
 
   resetFormulario(): void {
@@ -99,11 +131,11 @@ export class ProductoComponent implements OnInit {
       descripcion: '',
       cantidad: 0,
       precio: 0,
-      activo: false,
-      idTipoGenero: '',
-      idTipoColor: '',
-      idTipoCategoriaProducto: '',
-      idTipoTalla: ''
+      activo: 0,
+      genero: 0,
+      color: 0,
+      categoria: 0,
+      talla: 0
     };
   }
 }
